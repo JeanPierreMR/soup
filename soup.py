@@ -30,3 +30,17 @@ def get_links(content, soup):
 
 
 print(get_links(html_content,soup))
+
+
+# file = open("result.txt", 'w+') 
+# file.write('ress')
+# print(file.read())
+
+#searches for div and then gets <a> by its href
+a = (soup.find_all('div', class_="span4"))
+for div in soup.find_all('div', class_="span4"):
+    if (div.a != None and div.a["href"] == "#myModal"):
+        print(div.a.text)
+        break
+
+
