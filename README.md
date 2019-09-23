@@ -214,9 +214,8 @@ using ["http://ufm.edu/Estudios"](http://ufm.edu/Estudios)
 using ["https://fce.ufm.edu/carrera/cs/"](https://fce.ufm.edu/carrera/cs/)
 
 - [x] GET title
-- [ ] GET and display the href
 - [x] Download the "FACULTAD de CIENCIAS ECONOMICAS" logo. (you need to obtain the link dynamically)
-- [ ] GET following &lt;meta>: "title", "description" ("og")
+- [x] GET following &lt;meta>: "title", "description" ("og")
 - [x] count all &lt;a> (just display the count)
 - [x] count all &lt;div> (just display the count)
 

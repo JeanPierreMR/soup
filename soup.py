@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import requests,sys,csv,json, urllib, os
 url_base = "http://ufm.edu"
 
+
+
 #executes instructions for Portal page
 def portal_ins():
     url=url_base+"/Portal"
@@ -16,14 +18,8 @@ def portal_ins():
     # Parse the html content, this is the Magic ;)
     soup = BeautifulSoup(html_content, "html.parser")
     #------printing title
-    print(soup.title)
     print(soup.title.string)
-    def get_links(content, soup):
-        links = []
-        for tag in soup.find_all('a', href=True):
-            links.append(tag['href'])
-        return links
-    print(get_links(html_content,soup))
+    
     #------printing Addres of UFM
     #searches for div and then gets <a> by its href
     a = (soup.find_all('div', class_="span4"))
@@ -41,17 +37,30 @@ def portal_ins():
             if("Teléfono:" in div.text):
                 print("----------")
                 print(div.a.text)
+                print(div.a.findNext('a').text)
                 print("----------")
                 break
-
+    #------ Printing nav menu
+    result1 = soup.find_all('table', id="menu-table")[0].tr
+    print("Menu-table items: ")
+    result1.find_all('div')
+    print(result1.find_all('div'))
     #------button ufmail
     result1 = soup.find_all('a', id="ufmail_")
-    print(result1[0]['href'])
+    print("boton ufmail: "+ str(result1[0]['href']))
     #------button miu
     result1 = soup.find_all('a', id="miu_")
-    print(result1[0]['href'])
+    print("boton miu: "+str(result1[0]['href']))
+    #------Getting all properties that have href
+    def get_links(content, soup):
+        links = []
+        for tag in soup.find_all('a', href=True):
+            links.append(tag['href'])
+        return links
+    print(get_links(html_content,soup))
     #-----images with href
     imgs = soup.find_all('img')
+    print(imgs)
     for image in imgs:
         try:
             if(image["href"]!= None):
@@ -61,27 +70,26 @@ def portal_ins():
         
     #------counts all <a>
     result1 = soup.find_all('a')
-    print(len(result1))
+    print("Cantidad de <a>"+str(len(result1)))
     #------creating csv with text and href from <a>
-    a_texts = []
-    a_links = []
+    a_texts = ["text"]
+    a_links = ["link"]
     for a in result1:
         if(a.text == ""):
             a_texts.append("No text")
         else:
             a_texts.append(a.text)
         a_links.append(a['href'])
-    columnTitleRow = "text, link\n"
     with open('logs\extra_as.csv', 'w+') as f:
         writer = csv.writer(f)
-        writer.writerow(columnTitleRow)
         writer.writerows(zip(a_texts, a_links))
     with open('logs\extra_as.csv') as f:
         csv_f = csv.reader(f)
+        #print(f.readlines())
         for row in csv_f:
-            print("-"*30)
-            print('{:^20} || {}'.format(*row))
-        print("-"*30)
+            print("-"*50)
+            print(('{:^20} || {}'.format(*row)).replace("\n", ""))
+        print("-"*50)
 
 #executes instructions for estudios page
 def Estudios_ins():
@@ -97,10 +105,7 @@ def Estudios_ins():
     soup = BeautifulSoup(html_content, "html.parser")
     #------changing page
     for div in soup.find_all('div', class_="menu-key"):
-        print(div)
-        print(div.a.text)
         try:
-            print(div.a.text)
             if(div.a.text == "Estudios"):
                 url=url_base+div.a['href'] 
                 break
@@ -117,24 +122,30 @@ def Estudios_ins():
     soup = BeautifulSoup(html_content, "html.parser") 
     #------ Printing items of topmenu
     top_menu = soup.find_all('div', id="topmenu")
-    print("-------------------")
+    print("------Top menu")
     print(top_menu)
     #------ Printing all "Estudios"
+    print("------Estudios")
     top_menu = soup.find_all('div', class_="estudios")
     for estudio in top_menu:
         print(estudio.text)
     #------ Printing all items from leftbar
+    print("------Left bar")
     top_menu = soup.find_all('div', class_="leftbar")
     for item in top_menu:
         print(item.ul.text)
     #------ Printing social medias
+    print("------Social media")
     top_menu = soup.find_all('div', class_="social pull-right")
     for item in top_menu:
         for a in item.find_all('a'):
-            print(a['href'])
+            #too slow to make each request for the title
+            name = a['href'].split(".")[1].split("\\")[0]
+            print(name, end='')
+            print("\t" + str(a['href']))
     #------ Printing count of <a>
     result1 = soup.find_all('a')
-    print(len(result1))
+    print("Cantidad de <a>"+str(len(result1)))
 
 #executes instructions for estudios page
 def Cs_ins():
@@ -155,10 +166,33 @@ def Cs_ins():
     urllib.request.urlretrieve(img[0]['src'], "ufm_logo.jpg")
     print(os.path.isfile("ufm_logo.jpg")) 
     #------ Printing meta title, description ("og")
-    
+    meta = soup.find_all('meta', property = "og:title")
+    print(meta[0])
+    meta = soup.find_all('meta', property = "og:description")
+    print(meta[0])
     #------ Printing count of <a>
     result1 = soup.find_all('a')
-    print(len(result1))
+    print("Cantidad de <a>"+str(len(result1)))
     #------ Printing count of <div>
     result1 = soup.find_all('div')
-    print(len(result1))
+    print("Cantidad de <div>"+str(len(result1)))
+def directorio_ins():
+    url="https://fce.ufm.edu/carrera/cs/"
+    # Make a GET request to fetch the raw HTML content
+    try:
+        request_content = requests.get(url)
+    except:
+        print(f"unable to get {url}")
+        sys.exit(1)
+    html_content = request_content.text
+    # Parse the html content, this is the Magic ;)
+    soup = BeautifulSoup(html_content, "html.parser")
+    #table class = "tabla ancho100"   
+    result1 = soup.find_all('table', class_= "tabla ancho100")
+    for tabla in result1:
+        a = tabla.find_all('a', href = True)
+        print(a.sort())
+
+portal_ins()
+Estudios_ins()
+Cs_ins()
