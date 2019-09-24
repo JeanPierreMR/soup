@@ -271,7 +271,7 @@ using ["https://www.ufm.edu/Directorio"](https://www.ufm.edu/Directorio)
 }
 ```
 
-- [ ] GET the directory of all 3 column table and generate a CSV with these columns (Entity,FullName, Email), and dump it to `logs/4directorio_3column_tables.csv`
+- [x] GET the directory of all 3 column table and generate a CSV with these columns (Entity,FullName, Email), and dump it to `logs/4directorio_3column_tables.csv`
 
 | Entity        	| FullName                	| Email            	|
 |---------------	|-------------------------	|------------------	|
@@ -281,7 +281,7 @@ using ["https://www.ufm.edu/Directorio"](https://www.ufm.edu/Directorio)
 
 
 ## 5. Extra
-- [ ] Complete Dockerfile
+- [x] Complete Dockerfile
 - [ ] Create README section for Dockerfile under [`Usage Dockerfile`](#usage-dockerfile)
 - [ ] Add CI to your own repo.
 
