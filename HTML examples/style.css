@@ -1,0 +1,138 @@
+#banner{
+    width: 100%;
+    height: 200px;
+}
+
+
+
+#menu{
+    
+    font-family: Arial;
+    font-size: 20px;
+    background-color: #1A1A18;
+    color: white;
+}
+
+#m1{
+    font-size: 20px;
+    background: #1A1A18;
+    -webkit-transition-duration: 0.5s; 
+    transition-duration: 0.5s;
+    margin: 20px;
+    text-decoration:none;
+    display: inline-block;
+    width: 200px;
+}
+
+
+
+#m2{
+    font-size: 20px;
+    background: #1A1A18;
+    -webkit-transition-duration: 0.5s; 
+    transition-duration: 0.5s;
+    margin: 20px;
+    text-decoration:none;
+    display: inline-block;
+    width: 200px;
+}
+
+
+#m3{
+    font-size: 20px;
+    background: #1A1A18;
+    -webkit-transition-duration: 0.5s; 
+    transition-duration: 0.5s;
+    margin: 20px;
+    text-decoration:none;
+    display: inline-block;
+    width: 200px;
+}
+
+
+
+#m4{
+    font-size: 20px;
+    background: #1A1A18;
+    -webkit-transition-duration: 0.5s; 
+    transition-duration: 0.5s;
+    margin: 20px;
+    text-decoration:none;
+    display: inline-block;
+    width: 200px;
+}
+
+
+
+#m5{
+    font-size: 20px;
+    background: #1A1A18;
+    -webkit-transition-duration: 0.5s; 
+    transition-duration: 0.5s;
+    margin: 20px;
+    text-decoration:none;
+    display: inline-block;
+    width: 200px;
+}
+
+
+
+#p1,#p2,#p3{
+    color: black;
+    font-family: Arial;
+    text-align: center;
+}
+
+#ovt{
+    width: 560px;
+    height: 315px;
+    float: left;
+    margin: 10px;
+}
+
+#wal{
+    width: 560px;
+    height: 315px;
+    float:right;
+}
+
+#joao{
+    width: 560px;
+    height: 315px;
+    float: left;
+}
+
+#list1{
+    text-align: left;
+    font-family: Arial;
+    padding-left: 600px;
+    margin: 70px;
+}
+
+#list2{
+    text-align: left;
+    font-family: Arial;
+    
+}
+
+#list3{
+    float: center;
+    font-family: Arial;
+    text-align: center;
+}
+
+#tv{
+    color: black;
+    font-family: Arial;
+}
+
+#tu{
+   text-align: center;
+    color: black;
+    font-family: Arial; 
+}
+
+#textou{
+    font-family: Arial;
+    color: black;
+}
