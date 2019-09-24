@@ -176,8 +176,9 @@ def Cs_ins():
     #------ Printing count of <div>
     result1 = soup.find_all('div')
     print("Cantidad de <div>"+str(len(result1)))
+
 def directorio_ins():
-    url="https://fce.ufm.edu/carrera/cs/"
+    url="https://www.ufm.edu/Directorio"
     # Make a GET request to fetch the raw HTML content
     try:
         request_content = requests.get(url)
@@ -187,12 +188,96 @@ def directorio_ins():
     html_content = request_content.text
     # Parse the html content, this is the Magic ;)
     soup = BeautifulSoup(html_content, "html.parser")
-    #table class = "tabla ancho100"   
-    result1 = soup.find_all('table', class_= "tabla ancho100")
+    #get tables and mails 
+    result1 = soup.find_all('table')
+    emails = []
     for tabla in result1:
-        a = tabla.find_all('a', href = True)
-        print(a.sort())
+        a_s = tabla.find_all('a', href = True)
+        for a in a_s:
+            if("@" in a.text):
+                emails.append(a['href'].replace("mailto:",""))
+    with open('logs\\4directorio_emails.txt', 'w+') as f:
+        f.write(str(sorted(emails)))
+    #counting emails starting with a vocal
+    count = 0
+    for email in emails:
+        if (email.startswith(('a', 'e', 'i', 'o', 'u'))):
+            count +=1
+    print(f"\nemails starting with vowel: {count}" )
+    #getting directori
+    result1 = soup.find_all('table', class_= "tabla ancho100")
+    directorio = {}
+    for table in result1:
+        for tr in table.find_all('tr'):
+            name = ""
+            direction = ""
+            try:
+                name=(tr.td.a.text).replace(" ", "").replace("\n", "")
+                direction = (tr.find_all('td')[4].text.split(",")[0]).strip()
+            except:
+                try:
+                    name=(tr.td.text).replace(" ", "").replace("\n", "")
+                    direction = (tr.find_all('td')[4].text.split(",")[0]).strip()
+                except:
+                    try:
+                        name=(tr.td).replace(" ", "").replace("\\n", "")
+                        direction = (tr.find_all('td')[4].text.split(",")[0]).strip()
+                    except:
+                        next
+            if(name != ''):
+                try:
+                    directorio.get(direction).append(name)
+                except:
+                    directorio.update({direction: [name]})
+    #creamos el archivo   
+    with open('logs\\4directorio_address.json', 'w+') as f:
+        f.write(str(directorio))
+    
+    directorio_telefono = {}
+    for table in result1:
+        for tr in table.find_all('tr'):
+            name = ""
+            telefono = ""
+            try:
+                name=(tr.td.a.text).replace(" ", "").replace("\n", "")
+                telefono = (tr.find_all('td')[2]).text
+            except:
+                try:
+                    name=(tr.td.text).replace(" ", "").replace("\n", "")
+                    telefono = (tr.find_all('td')[2]).text
+                except:
+                    try:
+                        name=(tr.td).replace(" ", "").replace("\\n", "")
+                        telefono = (tr.find_all('td')[2]).text
+                    except:
+                        next
+            if(name != ''):
+                try:
+                    directorio_telefono.get(name).append(telefono)
+                except:
+                    directorio_telefono.update({name: [telefono]})
+    print(directorio_telefono)
+    result1 = soup.find_all('table', class_="tabla ancho100 col3")
+    entities = []
+    full_names  = []
+    emails = []
+    for table in result1:
+        if ("Decanos" in str(table.th)):
+            for tr in table.find_all('tr'):
+                tds = tr.find_all('td')
+                
+                try:
+                    print(tds[1].text)
+                    full_names.append(tds[1].text.split(',')[0])
+                    entities.append(tds[1].text.split(',')[1])
+                    emails.append(tds[2].a.text)
+                except:
+                    pass
+                    
+            break
+    print(entities)
+    print(full_names)
+    print(emails)
 
-portal_ins()
-Estudios_ins()
-Cs_ins()
+
+directorio_ins()
